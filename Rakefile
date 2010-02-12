@@ -10,11 +10,11 @@ begin
     gem.email = "gyorgy.frivolt@gmail.com"
     gem.homepage = "http://github.com/fifigyuri/content_scrapper"
     gem.authors = ["Gyorgy Frivolt"]
-    gem.add_development_dependency 'thoughtbot-shoulda', '=2.10.2'
-    gem.add_development_dependency 'mocha', '=0.9.8'
+    gem.add_development_dependency 'thoughtbot-shoulda', '>=2.10.2'
+    gem.add_development_dependency 'mocha', '>=0.9.8'
 
-    gem.add_dependency 'sanitize', '=1.2.0'
-    gem.add_dependency 'nokogiri', '=1.4.1'
+    gem.add_dependency 'sanitize', '>=1.2.0'
+    gem.add_dependency 'nokogiri', '>=1.4.1'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
