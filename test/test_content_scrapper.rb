@@ -20,7 +20,7 @@ class TestContentScrapper < Test::Unit::TestCase
       end
     end
 
-    context "for known infosources with unexpected content scrapping" do
+    context "for known pages with unexpected content scrapping" do
       setup do
         ugly_content = File.open("#{File.dirname(__FILE__)}/test_pages/ugly.html").read
         stringio = StringIO.new(ugly_content)
@@ -30,7 +30,7 @@ class TestContentScrapper < Test::Unit::TestCase
       should("return nil") { assert_nil @entry_content }
     end
 
-    context "for unknown infosources" do
+    context "for unknown pages" do
       setup { @entry_content = @scrapper.scrap_content('http://www.unknown.url/hsdae') }
       should("return nil") { assert_nil @entry_content }
     end
@@ -72,6 +72,16 @@ class TestContentScrapper < Test::Unit::TestCase
       setup { @new_scrapper = ContentScrapper.new.set_as_default }
       should "change the default to the new content scrapper" do
         assert_equal @new_scrapper, ContentScrapper.default
+      end
+    end
+    context "for feed entry" do
+      setup do
+        @feed_entry = Feedzirra::Parser::RSSEntry.new
+        @feed_entry.url = 'http://www.unknown.url/gerhe'
+        @feed_entry.content = 'We should get this.'
+      end
+      should("scrap content by the default scrapper") do
+        assert_equal 'We should get this.', @feed_entry.scrap_content
       end
     end
   end
