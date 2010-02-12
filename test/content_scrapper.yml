@@ -1,0 +1,25 @@
+content_mappings:
+  -
+    - '^http:\/\/www\.pretty\.url'
+    - ['//div[@id="failing_content"]', '//div[@id="itext_content"]']
+  -
+    - '^http:\/\/www\.skipped\.url'
+sanitize_settings:
+  !ruby/symbol elements:
+    - 'p'
+    - 'br'
+    - 'b'
+    - 'em'
+    - 'i'
+    - 'strong'
+    - 'u'
+    - 'a'
+    - 'h1'
+    - 'h2'
+    - 'h3'
+    - 'li'
+    - 'ol'
+    - 'ul'
+  !ruby/symbol attributes:
+    a:
+      - 'href'
