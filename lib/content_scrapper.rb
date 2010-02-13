@@ -3,11 +3,13 @@ require 'open-uri'
 require 'nokogiri'
 require 'sanitize'
 
+require 'content_scrapper/content_mapping'
+
 class ContentScrapper
 
   class << self
     attr_accessor :default_config_file, :default
-    default_config_file = "#{File.dirname(__FILE__)}/../config/content_scrapper.yml"
+    default_config_file = "#{File.dirname(__FILE__)}/../config/content_scrapper.rb"
 
     def create_new_default(*args)
       self.default = self.new(*args)
@@ -21,25 +23,31 @@ class ContentScrapper
   attr_accessor :content_mappings, :sanitize_settings
 
   def initialize(scrapper_config_file = nil)
-    scrapper_config_file ||= ContentScrapper.default_config_file
-    config_file =  scrapper_config_file
-    scrapper_config = YAML::load(File.open(config_file))
-    @content_mappings = scrapper_config['content_mappings']
-    @sanitize_settings = scrapper_config['sanitize_settings']
+    @content_mappings = []
+    config_file = ContentScrapper.default_config_file
+    self.instance_eval(File.read(config_file), config_file) unless config_file.nil?
+  end
+
+  def content_mapping(&block)
+    new_mapping = ContentMapping.new
+    new_mapping.instance_eval(&block)
+    @content_mappings << new_mapping
+  end
+
+  def sanitize_tags(settings)
+    @sanitize_settings = settings
   end
 
   def scrap_content(url)
-    content_mappings.each do | regexp_url, xpath_to_contents |
-      if url =~ %r/#{regexp_url}/ and !(xpath_to_contents.nil? || xpath_to_contents.empty?)
+    content_mappings.each do | content_mapping |
+      if content_mapping.matches_url?(url) and !content_mapping.content_xpaths_list.empty?
         begin
-          feeditem_page = Kernel.open(url)
-          xpath_to_contents.each do |supposed_content_xpath|
-            content_section = Nokogiri::HTML(feeditem_page).xpath(supposed_content_xpath)
-            if content_section.count > 0
-              content_section = content_section.to_a.join("\n")
-              return Sanitize.clean(content_section, sanitize_settings)
-            end
-            feeditem_page.rewind
+          doc = Nokogiri::HTML(Kernel.open(url))
+          content = content_mapping.scrap_content(doc)
+          if content.nil?
+            return nil
+          else
+            return Sanitize.clean(content, sanitize_settings)
           end
         rescue Exception
           scrap_content_exception($!)

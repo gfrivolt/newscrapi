@@ -3,10 +3,33 @@ require 'mocha'
 
 class TestContentScrapper < Test::Unit::TestCase
 
-  ContentScrapper.default_config_file = "#{File.dirname(__FILE__)}/content_scrapper.yml"
+  ContentScrapper.default_config_file = nil
 
   context "on common setting" do
-    setup { @scrapper = ContentScrapper.new }
+    setup do
+      @scrapper = ContentScrapper.new
+      @scrapper.instance_eval do
+        content_mapping do
+          url_pattern /^http:\/\/www\.pretty\.url/
+          content_at '//div[@id="failing_content"]'
+          content_at '//div[@id="itext_content"]'
+        end
+
+        content_mapping do
+          url_pattern /^http:\/\/www\.twopatterns\.url/
+          content_at '//div[@id="failing_content"]'
+          content_at '//div[@id="itext_content"]'
+        end
+
+        content_mapping do
+          url_pattern /^http:\/\/www\.twopatterns\.url/
+          content_at '//div[@id="itext_second_content"]'
+        end
+
+        sanitize_tags ({:elements => ['p','br', 'b', 'em', 'i', 'strong', 'u', 'a', 'h1', 'h2', 'h3', 'li', 'ol', 'ul'], \
+                       :attributes => { 'a' => ['href'] }})
+      end
+    end
 
     context "for known sources with expected content scrapping" do
       setup do
@@ -33,6 +56,18 @@ class TestContentScrapper < Test::Unit::TestCase
     context "for unknown pages" do
       setup { @entry_content = @scrapper.scrap_content('http://www.unknown.url/hsdae') }
       should("return nil") { assert_nil @entry_content }
+    end
+
+    context "multiple matching url patterns" do
+      setup do
+        twocontent = File.open("#{File.dirname(__FILE__)}/test_pages/twocontent.html").read
+        stringio = StringIO.new(twocontent)
+        Kernel.expects(:open).with('http://www.twopatterns.url').returns(stringio)
+        @entry_content = @scrapper.scrap_content('http://www.twopatterns.url')
+      end
+      should "match the first content" do
+        assert_equal 'The first one is matched', @entry_content
+      end
     end
 
     context "on scrapping with feedzirra" do

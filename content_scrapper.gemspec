@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{content_scrapper}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gyorgy Frivolt"]
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "config/content_scrapper.yml",
+     "content_scrapper.gemspec",
      "lib/content_scrapper.rb",
      "lib/content_scrapper/feedzirra.rb",
      "rails/init.rb",
