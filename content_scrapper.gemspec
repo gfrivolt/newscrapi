@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{content_scrapper}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gyorgy Frivolt"]
-  s.date = %q{2010-02-12}
-  s.description = %q{If you want to cut only the content of the page, without any other part (like the menu, header, footer, commercials, etc.), you might find this gem very handy. A DSL is also defined for nifty definitions for your screen scrapping and sanitization.}
+  s.date = %q{2010-02-13}
+  s.description = %q{If you want to cut only the content of pages, without any other part (like the menu, header, footer, commercials, etc.), you might find this gem very handy. A DSL is also defined for nifty definitions for your screen scrapping and sanitization.}
   s.email = %q{gyorgy.frivolt@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -23,15 +23,17 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "config/content_scrapper.yml",
+     "config/content_scrapper.rb",
      "content_scrapper.gemspec",
      "lib/content_scrapper.rb",
+     "lib/content_scrapper/content_mapping.rb",
      "lib/content_scrapper/feedzirra.rb",
      "rails/init.rb",
-     "test/content_scrapper.yml",
      "test/helper.rb",
+     "test/test_content_mapping.rb",
      "test/test_content_scrapper.rb",
      "test/test_pages/pretty.html",
+     "test/test_pages/twocontent.html",
      "test/test_pages/ugly.html"
   ]
   s.homepage = %q{http://github.com/fifigyuri/content_scrapper}
@@ -40,7 +42,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Gem for those who want to screen scrap only the content part of web pages, blogs or articles.}
   s.test_files = [
-    "test/test_content_scrapper.rb",
+    "test/test_content_mapping.rb",
+     "test/test_content_scrapper.rb",
      "test/helper.rb"
   ]
 

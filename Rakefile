@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "content_scrapper"
     gem.summary = "Gem for those who want to screen scrap only the content part of web pages, blogs or articles."
-    gem.description = "If you want to cut only the content of the page, without any other part (like the menu, header, footer, commercials, etc.), you might find this gem very handy. A DSL is also defined for nifty definitions for your screen scrapping and sanitization."
+    gem.description = "If you want to cut only the content of pages, without any other part (like the menu, header, footer, commercials, etc.), you might find this gem very handy. A DSL is also defined for nifty definitions for your screen scrapping and sanitization."
     gem.email = "gyorgy.frivolt@gmail.com"
     gem.homepage = "http://github.com/fifigyuri/content_scrapper"
     gem.authors = ["Gyorgy Frivolt"]

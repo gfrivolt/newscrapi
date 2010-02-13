@@ -40,15 +40,13 @@ class ContentScrapper
 
   def scrap_content(url)
     content_mappings.each do | content_mapping |
-      if content_mapping.matches_url?(url) and !content_mapping.content_xpaths_list.empty?
+      if content_mapping.matches_url?(url)
+        return nil if content_mapping.content_xpaths_list.empty?
         begin
           doc = Nokogiri::HTML(Kernel.open(url))
           content = content_mapping.scrap_content(doc)
-          if content.nil?
-            return nil
-          else
-            return Sanitize.clean(content, sanitize_settings)
-          end
+          return nil if content.nil?
+          return Sanitize.clean(content, sanitize_settings)
         rescue Exception
           scrap_content_exception($!)
         end

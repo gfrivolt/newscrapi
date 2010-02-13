@@ -26,6 +26,15 @@ class TestContentScrapper < Test::Unit::TestCase
           content_at '//div[@id="itext_second_content"]'
         end
 
+        content_mapping do
+          url_pattern /^http:\/\/www\.skipper\.url/
+        end
+
+        content_mapping do
+          url_pattern /^http:\/\/www\.skipper\.url/
+          content_at '//div[@id="never_should_be_here"]'
+        end
+
         sanitize_tags ({:elements => ['p','br', 'b', 'em', 'i', 'strong', 'u', 'a', 'h1', 'h2', 'h3', 'li', 'ol', 'ul'], \
                        :attributes => { 'a' => ['href'] }})
       end
@@ -68,6 +77,14 @@ class TestContentScrapper < Test::Unit::TestCase
       should "match the first content" do
         assert_equal 'The first one is matched', @entry_content
       end
+    end
+
+    context "skipper patterns" do
+      setup do
+        Kernel.expects(:open).with('http://www.skipper.url/fdgsw').never
+        @entry_content = @scrapper.scrap_content('http://www.skipper.url/fdgsw')
+      end
+      should("not match enything") { assert_nil @entry_content }
     end
 
     context "on scrapping with feedzirra" do
