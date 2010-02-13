@@ -24,7 +24,7 @@ class ContentScrapper
 
   def initialize(scrapper_config_file = nil)
     @content_mappings = []
-    config_file = ContentScrapper.default_config_file
+    config_file = scrapper_config_file || ContentScrapper.default_config_file
     self.instance_eval(File.read(config_file), config_file) unless config_file.nil?
   end
 
