@@ -5,7 +5,7 @@ class TestContentScrapper < Test::Unit::TestCase
 
   ContentScrapper.default_config_file = nil
 
-  context "on common setting" do
+  context "on common settings" do
     setup do
       @scrapper = ContentScrapper.new
       @scrapper.instance_eval do
@@ -35,8 +35,10 @@ class TestContentScrapper < Test::Unit::TestCase
           content_at '//div[@id="never_should_be_here"]'
         end
 
-        sanitize_tags ({:elements => ['p','br', 'b', 'em', 'i', 'strong', 'u', 'a', 'h1', 'h2', 'h3', 'li', 'ol', 'ul'], \
-                       :attributes => { 'a' => ['href'] }})
+        sanitize_tags do
+          {:elements => ['p','br', 'b', 'em', 'i', 'strong', 'u', 'a', 'h1', 'h2', 'h3', 'li', 'ol', 'ul'], \
+                       :attributes => { 'a' => ['href'] }}
+        end
       end
     end
 
@@ -113,6 +115,34 @@ class TestContentScrapper < Test::Unit::TestCase
         end
       end
     end
+
+    context "on failing scrapping" do
+      setup do
+        Kernel.expects(:open).raises(Exception, 'something failed')
+        @exception_handle_flag = nil
+        @scrapper.rescue_scrapping do |exception|
+          @exception_handle_flag = exception.message
+        end
+      end
+      should "catch the exception and handle it" do
+        assert_nil @scrapper.scrap_content('http://www.pretty.url')
+        assert_equal 'something failed', @exception_handle_flag
+      end
+    end
+
+    context "on missing url matcher" do
+      setup do
+        Kernel.expects(:open).never
+        @missing_url_matcher_flag = nil
+        @scrapper.missing_url_matcher do |url|
+          @missing_url_matcher_flag = url
+        end
+        @scrapper.scrap_content('http://missing.url.matcher')
+      end
+      should "call the handler block" do
+        assert_equal 'http://missing.url.matcher', @missing_url_matcher_flag
+      end
+    end
   end
 
   context "on setting default content scrapper" do
@@ -126,6 +156,7 @@ class TestContentScrapper < Test::Unit::TestCase
         assert_equal @new_scrapper, ContentScrapper.default
       end
     end
+
     context "for feed entry" do
       setup do
         @feed_entry = Feedzirra::Parser::RSSEntry.new
@@ -138,3 +169,4 @@ class TestContentScrapper < Test::Unit::TestCase
     end
   end
 end
+

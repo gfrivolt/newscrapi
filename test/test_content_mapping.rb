@@ -26,7 +26,8 @@ class TestContentMapping < Test::Unit::TestCase
         @document = Nokogiri::HTML(pretty_content)
       end
       should "extract the content" do
-        assert_match(%r{<p><strong>This is a strong text</strong></p>}, @mapping.scrap_content(@document))
+        assert_match(%r{<p><strong>This is a strong text</strong></p>},
+                     @mapping.scrap_content(@document))
       end
     end
     context "on document with two content parts" do

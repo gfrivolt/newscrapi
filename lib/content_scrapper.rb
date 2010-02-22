@@ -34,8 +34,8 @@ class ContentScrapper
     @content_mappings << new_mapping
   end
 
-  def sanitize_tags(settings)
-    @sanitize_settings = settings
+  def sanitize_tags(&block)
+    @sanitize_settings = block.call()
   end
 
   def scrap_content(url)
@@ -44,17 +44,23 @@ class ContentScrapper
         return nil if content_mapping.content_xpaths_list.empty?
         begin
           doc = Nokogiri::HTML(Kernel.open(url))
-          content = content_mapping.scrap_content(doc)
-          return nil if content.nil?
-          return Sanitize.clean(content, sanitize_settings)
+          return content_mapping.scrap_content(doc, content_scrapper = self)
         rescue Exception
-          scrap_content_exception($!)
+          @scrapping_exception_handler_block.call($!) unless @scrapping_exception_handler_block.nil?
+          return nil
         end
       end
     end
+    @missing_url_matcher_handler_block.call(url) unless @missing_url_matcher_handler_block.nil?
     nil
   end
 
-  def scrap_content_exception(exception)
+  def rescue_scrapping(&block)
+    @scrapping_exception_handler_block = block
+  end
+
+  def missing_url_matcher(&block)
+    @missing_url_matcher_handler_block = block
   end
 end
+
