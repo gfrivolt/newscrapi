@@ -41,4 +41,19 @@ class TestContentMapping < Test::Unit::TestCase
     end
   end
 
+  context "on pattern for page for encoding" do
+    setup do
+      @mapping = ContentMapping.new
+      @mapping.instance_eval do
+        url_pattern /^http:\/\/www\.matchme\.com\//
+        content_at '//div[@class="node node-story"]/div[@class="content"]/p'
+        iconv :to => 'utf8', :from => 'latin1'
+      end
+      page = File.open("#{File.dirname(__FILE__)}/test_pages/encoding.html").read 
+      @document = Nokogiri::HTML(page)
+    end
+    should "scrap a page with converted content" do
+      @mapping.scrap_content(@document)
+    end
+  end
 end
