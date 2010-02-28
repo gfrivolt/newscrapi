@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
      ".gitignore",
-     ".specification",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
@@ -33,6 +32,8 @@ Gem::Specification.new do |s|
      "test/helper.rb",
      "test/test_content_mapping.rb",
      "test/test_content_scrapper.rb",
+     "test/test_pages.rb",
+     "test/test_pages/cdata.html",
      "test/test_pages/encoding.html",
      "test/test_pages/pretty.html",
      "test/test_pages/twocontent.html",
@@ -46,6 +47,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "test/test_content_mapping.rb",
      "test/test_content_scrapper.rb",
+     "test/test_pages.rb",
      "test/helper.rb"
   ]
 
@@ -56,18 +58,15 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<thoughtbot-shoulda>, [">= 2.10.2"])
       s.add_development_dependency(%q<mocha>, [">= 0.9.8"])
-      s.add_runtime_dependency(%q<sanitize>, [">= 1.2.0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 1.4.1"])
     else
       s.add_dependency(%q<thoughtbot-shoulda>, [">= 2.10.2"])
       s.add_dependency(%q<mocha>, [">= 0.9.8"])
-      s.add_dependency(%q<sanitize>, [">= 1.2.0"])
       s.add_dependency(%q<nokogiri>, [">= 1.4.1"])
     end
   else
     s.add_dependency(%q<thoughtbot-shoulda>, [">= 2.10.2"])
     s.add_dependency(%q<mocha>, [">= 0.9.8"])
-    s.add_dependency(%q<sanitize>, [">= 1.2.0"])
     s.add_dependency(%q<nokogiri>, [">= 1.4.1"])
   end
 end

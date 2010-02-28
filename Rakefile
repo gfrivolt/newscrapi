@@ -13,7 +13,6 @@ begin
     gem.add_development_dependency 'thoughtbot-shoulda', '>=2.10.2'
     gem.add_development_dependency 'mocha', '>=0.9.8'
 
-    gem.add_dependency 'sanitize', '>=1.2.0'
     gem.add_dependency 'nokogiri', '>=1.4.1'
   end
   Jeweler::GemcutterTasks.new

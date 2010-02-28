@@ -5,6 +5,24 @@ class TestContentScrapper < Test::Unit::TestCase
 
   ContentScrapper.default_config_file = nil
 
+  context "on settings without sanitization tags" do
+    setup do
+      @scrapper = ContentScrapper.new
+      @scrapper.instance_eval do
+        content_mapping do
+          url_pattern /.*/
+          content_at '//div[@id="itext_content"]'
+        end
+      end
+      content = File.open("#{File.dirname(__FILE__)}/test_pages/pretty.html").read 
+      stringio = StringIO.new(content)
+      Kernel.expects(:open).returns(stringio)
+    end
+    should 'not sanitize' do
+      assert !@scrapper.scrap_content('http://www.pretty.url/fsdsd').nil?
+    end
+  end
+
   context "on common settings" do
     setup do
       @scrapper = ContentScrapper.new

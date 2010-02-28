@@ -1,7 +1,6 @@
 
 require 'open-uri'
 require 'nokogiri'
-require 'sanitize'
 
 require 'content_scrapper/content_mapping'
 
@@ -20,7 +19,7 @@ class ContentScrapper
     ContentScrapper.default = self
   end
 
-  attr_accessor :content_mappings, :sanitize_settings
+  attr_reader :content_mappings
 
   def initialize(scrapper_config_file = nil)
     @content_mappings = []
@@ -34,8 +33,22 @@ class ContentScrapper
     @content_mappings << new_mapping
   end
 
-  def sanitize_tags(&block)
-    @sanitize_settings = block.call()
+  def clean_content(content)
+    @content_cleaner_block.nil? ? content : @content_cleaner_block.call(content)
+  end
+
+  def sanitize_tags(&sanitize_settings)
+    @content_cleaner_block = lambda do |content|
+      require 'sanitize'
+      Sanitize.clean(content, sanitize_settings.call())
+    end
+  end
+
+  def loofah_tags(scrap_type)
+    @content_scrapper_block = lambda do |content|
+      require 'loofah'
+      Loofah.document(content).scrub!(scrap_type).to_s
+    end
   end
 
   def scrap_content(url)

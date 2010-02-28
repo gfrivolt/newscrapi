@@ -9,7 +9,7 @@ class TestContentMapping < Test::Unit::TestCase
       @mapping = ContentMapping.new
       @mapping.instance_eval do
         url_pattern /^http:\/\/www\.matchme\.com\//
-        content_at '//div[@id="failing_content"]'
+          content_at '//div[@id="failing_content"]'
         content_at '//div[@id="itext_content"]'
         content_at '//div[@id="itext_second_content"]'
       end
@@ -46,7 +46,7 @@ class TestContentMapping < Test::Unit::TestCase
       @mapping = ContentMapping.new
       @mapping.instance_eval do
         url_pattern /^http:\/\/www\.matchme\.com\//
-        content_at '//div[@class="node node-story"]/div[@class="content"]/p'
+          content_at '//div[@class="node node-story"]/div[@class="content"]/p'
         iconv :to => 'utf8', :from => 'latin1'
       end
       page = File.open("#{File.dirname(__FILE__)}/test_pages/encoding.html").read 
