@@ -112,7 +112,7 @@ class TestContentScrapper < Test::Unit::TestCase
         pretty_content = File.open("#{File.dirname(__FILE__)}/test_pages/pretty.html").read 
         Kernel.expects(:open).never
         @scrapped_content = @scrapper.scrap_content('http://www.pretty.url/hsdae',
-                                                    full_page = pretty_content)
+                                                    :use_page => pretty_content)
       end
       should "scrap from the provided full page" do
         assert_match(%r{<p><strong>This is a strong text</strong></p>}, @scrapped_content)
@@ -157,8 +157,8 @@ class TestContentScrapper < Test::Unit::TestCase
         should("return the original feed content") do
           @feed_entries.each do |feed_entry|
             assert_match(%r{<p><strong>This is a strong text</strong></p>},
-              feed_entry.scrap_content(@scrapper, full_page = @pretty_content))
-            feed_entry.scrap_content!(@scrapper, full_page = @pretty_content)
+              feed_entry.scrap_content(@scrapper, :use_page => @pretty_content))
+            feed_entry.scrap_content!(@scrapper, :use_page => @pretty_content)
             assert_match(%r{<p><strong>This is a strong text</strong></p>}, feed_entry.content)
           end
         end

@@ -6,13 +6,13 @@ module Feedzirra
   module FeedEntryUtilities
 
     # Scrap the content based on the URL and the existing content and return it
-    def scrap_content(scrapper = ContentScrapper.default, full_page = nil)
-      scrapper.scrap_content(self.url, full_page = full_page) || self.content.to_s
+    def scrap_content(scrapper = ContentScrapper.default, options = {})
+      scrapper.scrap_content(self.url, options) || self.content.to_s
     end
 
     # Scrap the content or use the existing one and change the feed entry
-    def scrap_content!(scrapper = ContentScrapper.default, full_page = nil)
-      self.content = scrap_content(scrapper, full_page = full_page)
+    def scrap_content!(scrapper = ContentScrapper.default, options = {})
+      self.content = scrap_content(scrapper, options)
     end
   end
 end
