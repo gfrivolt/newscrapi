@@ -107,6 +107,18 @@ class TestContentScrapper < Test::Unit::TestCase
       should("not match enything") { assert_nil @entry_content }
     end
 
+    context "on already downloaded document" do
+      setup do
+        pretty_content = File.open("#{File.dirname(__FILE__)}/test_pages/pretty.html").read 
+        Kernel.expects(:open).never
+        @scrapped_content = @scrapper.scrap_content('http://www.pretty.url/hsdae',
+                                                    full_page = pretty_content)
+      end
+      should "scrap from the provided full page" do
+        assert_match(%r{<p><strong>This is a strong text</strong></p>}, @scrapped_content)
+      end
+    end
+
     context "on scrapping with feedzirra" do
       setup do
         require 'content_scrapper/feedzirra'
@@ -129,6 +141,25 @@ class TestContentScrapper < Test::Unit::TestCase
             assert_equal 'Pretty well written content is this.', feed_entry.scrap_content(@scrapper)
             feed_entry.scrap_content!(@scrapper)
             assert_equal 'Pretty well written content is this.', feed_entry.content
+          end
+        end
+      end
+
+      context "on feed entry with url and scrapping with full_page" do
+        setup do
+          @feed_entries = [ Feedzirra::Parser::RSSEntry.new, Feedzirra::Parser::AtomEntry.new ]
+          @feed_entries.each do |feed_entry|
+            feed_entry.url = 'http://www.pretty.url/wedhsf'
+          end
+          @pretty_content = File.open("#{File.dirname(__FILE__)}/test_pages/pretty.html").read
+          Kernel.expects(:open).never
+        end
+        should("return the original feed content") do
+          @feed_entries.each do |feed_entry|
+            assert_match(%r{<p><strong>This is a strong text</strong></p>},
+              feed_entry.scrap_content(@scrapper, full_page = @pretty_content))
+            feed_entry.scrap_content!(@scrapper, full_page = @pretty_content)
+            assert_match(%r{<p><strong>This is a strong text</strong></p>}, feed_entry.content)
           end
         end
       end

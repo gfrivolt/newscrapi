@@ -51,12 +51,12 @@ class ContentScrapper
     end
   end
 
-  def scrap_content(url)
+  def scrap_content(url, full_page = nil)
     content_mappings.each do | content_mapping |
       if content_mapping.matches_url?(url)
         return nil if content_mapping.content_xpaths_list.empty?
         begin
-          doc = Nokogiri::HTML(Kernel.open(url))
+          doc = Nokogiri::HTML(full_page || Kernel.open(url))
           return content_mapping.scrap_content(doc, content_scrapper = self)
         rescue Exception
           @scrapping_exception_handler_block.call($!) unless @scrapping_exception_handler_block.nil?
