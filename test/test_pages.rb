@@ -21,7 +21,6 @@ class TestContentScrapper < Test::Unit::TestCase
       Kernel.expects(:open).returns(StringIO.new(cdata_content))
     end
     should "not escape the cdata entries, should leave cdata unvisible" do
-      #<!--<![CDATA[
       assert_match /<!--</, @scrapper.scrap_content('http://www.cdata.url/hsdae')
     end
   end

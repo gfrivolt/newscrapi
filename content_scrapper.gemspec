@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{content_scrapper}
-  s.version = "0.0.9"
+  s.version = "0.0.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gyorgy Frivolt"]
-  s.date = %q{2010-03-09}
+  s.date = %q{2010-03-12}
   s.description = %q{If you want to cut only the content of pages, without any other part (like the menu, header, footer, commercials, etc.), you might find this gem very handy. A DSL is also defined for nifty definitions for your screen scrapping and sanitization.}
   s.email = %q{gyorgy.frivolt@gmail.com}
   s.extra_rdoc_files = [

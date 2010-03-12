@@ -169,13 +169,15 @@ class TestContentScrapper < Test::Unit::TestCase
       setup do
         Kernel.expects(:open).raises(Exception, 'something failed')
         @exception_handle_flag = nil
-        @scrapper.rescue_scrapping do |exception|
+        @scrapper.rescue_scrapping do |exception, url|
           @exception_handle_flag = exception.message
+          @exception_url = url
         end
       end
       should "catch the exception and handle it" do
         assert_nil @scrapper.scrap_content('http://www.pretty.url')
         assert_equal 'something failed', @exception_handle_flag
+        assert_equal 'http://www.pretty.url', @exception_url
       end
     end
 

@@ -30,7 +30,7 @@ class ContentMapping
       content_section = doc.xpath(content_xpath)
       content = content_section.to_a.join("\n")
       content = content_scrapper.clean_content(content) unless content_scrapper.nil?
-      content = Iconv.conv(to=iconv_to, from=iconv_from, content) unless iconv_to.nil?
+      content = Iconv.conv(iconv_to, iconv_from, content) unless iconv_to.nil?
       return content if content_section.count > 0
     end
     nil

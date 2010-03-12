@@ -59,7 +59,9 @@ class ContentScrapper
           doc = Nokogiri::HTML(options[:use_page] || Kernel.open(url))
           return content_mapping.scrap_content(doc, content_scrapper = self)
         rescue Exception
-          @scrapping_exception_handler_block.call($!) unless @scrapping_exception_handler_block.nil?
+          unless @scrapping_exception_handler_block.nil?
+            @scrapping_exception_handler_block.call($!, url)
+          end
           return nil
         end
       end
