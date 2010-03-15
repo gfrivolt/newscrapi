@@ -1,3 +1,3 @@
-require 'content_scrapper'
+require 'newscrapi'
 
-ContentScrapper.default_config_file = "#{RAILS_ROOT}/config/content_scrapper.rb"
+Newscrapi::Scrapper.default_config_file = "#{RAILS_ROOT}/config/content_scrapper.rb"

@@ -4,17 +4,17 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "content_scrapper"
+    gem.name = "newscrapi"
     gem.summary = "Gem for those who want to screen scrap only the content part of web pages, blogs or articles."
     gem.description = "If you want to cut only the content of pages, without any other part (like the menu, header, footer, commercials, etc.), you might find this gem very handy. A DSL is also defined for nifty definitions for your screen scrapping and sanitization."
     gem.email = "gyorgy.frivolt@gmail.com"
-    gem.homepage = "http://github.com/fifigyuri/content_scrapper"
+    gem.homepage = "http://github.com/fifigyuri/newscrapi"
     gem.authors = ["Gyorgy Frivolt"]
     gem.add_development_dependency 'thoughtbot-shoulda', '>=2.10.2'
     gem.add_development_dependency 'mocha', '>=0.9.8'
 
     gem.add_dependency 'nokogiri', '>=1.4.1'
-    gem.add_dependency 'chardet'
+    gem.add_dependency 'rchardet'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
