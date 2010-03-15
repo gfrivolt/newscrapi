@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{newscrapi}
-  s.version = "0.0.10"
+  s.version = "0.0.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gyorgy Frivolt"]
@@ -55,16 +55,27 @@ Gem::Specification.new do |s|
      "doc/fr_method_index.html",
      "doc/index.html",
      "doc/rdoc-style.css",
+     "lib/newscrapi.rb",
+     "lib/newscrapi/encoding.rb",
+     "lib/newscrapi/feedzirra.rb",
+     "lib/newscrapi/mapping.rb",
+     "lib/newscrapi/scrapper.rb",
+     "lib/newscrapi/testing.rb",
+     "newscrapi.gemspec",
      "rails/init.rb",
      "test/helper.rb",
+     "test/test_encoding.rb",
+     "test/test_mapping.rb",
      "test/test_pages.rb",
      "test/test_pages/cdata.html",
-     "test/test_pages/encoding.html",
-     "test/test_pages/iso-8859-2_page.html",
+     "test/test_pages/page_without_encoding_meta_tag.html",
      "test/test_pages/pretty.html",
      "test/test_pages/pretty_missing_content.html",
      "test/test_pages/twocontent.html",
-     "test/test_pages/ugly.html"
+     "test/test_pages/ugly.html",
+     "test/test_pages/utf-8_page.html",
+     "test/test_pages/windows-1250_page.html",
+     "test/test_scrapper.rb"
   ]
   s.homepage = %q{http://github.com/fifigyuri/newscrapi}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -73,6 +84,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Gem for those who want to screen scrap only the content part of web pages, blogs or articles.}
   s.test_files = [
     "test/test_scrapper.rb",
+     "test/test_encoding.rb",
      "test/test_pages.rb",
      "test/test_mapping.rb",
      "test/helper.rb"
