@@ -14,6 +14,7 @@ begin
     gem.add_development_dependency 'mocha', '>=0.9.8'
 
     gem.add_dependency 'nokogiri', '>=1.4.1'
+    gem.add_dependency 'chardet'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

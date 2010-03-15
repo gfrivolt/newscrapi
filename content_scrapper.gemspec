@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gyorgy Frivolt"]
-  s.date = %q{2010-03-12}
+  s.date = %q{2010-03-15}
   s.description = %q{If you want to cut only the content of pages, without any other part (like the menu, header, footer, commercials, etc.), you might find this gem very handy. A DSL is also defined for nifty definitions for your screen scrapping and sanitization.}
   s.email = %q{gyorgy.frivolt@gmail.com}
   s.extra_rdoc_files = [
@@ -25,6 +25,37 @@ Gem::Specification.new do |s|
      "VERSION",
      "config/content_scrapper.rb",
      "content_scrapper.gemspec",
+     "doc/classes/ContentMapping.html",
+     "doc/classes/ContentMapping.src/M000001.html",
+     "doc/classes/ContentMapping.src/M000002.html",
+     "doc/classes/ContentMapping.src/M000003.html",
+     "doc/classes/ContentMapping.src/M000004.html",
+     "doc/classes/ContentMapping.src/M000005.html",
+     "doc/classes/ContentMapping.src/M000006.html",
+     "doc/classes/ContentScrapper.html",
+     "doc/classes/ContentScrapper.src/M000007.html",
+     "doc/classes/ContentScrapper.src/M000008.html",
+     "doc/classes/ContentScrapper.src/M000009.html",
+     "doc/classes/ContentScrapper.src/M000010.html",
+     "doc/classes/ContentScrapper.src/M000011.html",
+     "doc/classes/ContentScrapper.src/M000012.html",
+     "doc/classes/ContentScrapper.src/M000013.html",
+     "doc/classes/ContentScrapper.src/M000014.html",
+     "doc/classes/ContentScrapper.src/M000015.html",
+     "doc/classes/ContentScrapper.src/M000016.html",
+     "doc/classes/Feedzirra.html",
+     "doc/classes/Feedzirra/FeedEntryUtilities.html",
+     "doc/classes/Feedzirra/FeedEntryUtilities.src/M000017.html",
+     "doc/classes/Feedzirra/FeedEntryUtilities.src/M000018.html",
+     "doc/created.rid",
+     "doc/files/lib/content_scrapper/content_mapping_rb.html",
+     "doc/files/lib/content_scrapper/feedzirra_rb.html",
+     "doc/files/lib/content_scrapper_rb.html",
+     "doc/fr_class_index.html",
+     "doc/fr_file_index.html",
+     "doc/fr_method_index.html",
+     "doc/index.html",
+     "doc/rdoc-style.css",
      "lib/content_scrapper.rb",
      "lib/content_scrapper/content_mapping.rb",
      "lib/content_scrapper/feedzirra.rb",
@@ -59,15 +90,18 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<thoughtbot-shoulda>, [">= 2.10.2"])
       s.add_development_dependency(%q<mocha>, [">= 0.9.8"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 1.4.1"])
+      s.add_runtime_dependency(%q<chardet>, [">= 0"])
     else
       s.add_dependency(%q<thoughtbot-shoulda>, [">= 2.10.2"])
       s.add_dependency(%q<mocha>, [">= 0.9.8"])
       s.add_dependency(%q<nokogiri>, [">= 1.4.1"])
+      s.add_dependency(%q<chardet>, [">= 0"])
     end
   else
     s.add_dependency(%q<thoughtbot-shoulda>, [">= 2.10.2"])
     s.add_dependency(%q<mocha>, [">= 0.9.8"])
     s.add_dependency(%q<nokogiri>, [">= 1.4.1"])
+    s.add_dependency(%q<chardet>, [">= 0"])
   end
 end
 

@@ -41,6 +41,21 @@ class TestContentMapping < Test::Unit::TestCase
     end
   end
 
+  context "on url matcher definition using wildcards" do
+    setup do
+      @mapping = ContentMapping.new
+      @mapping.instance_eval do
+        url_pattern 'http://*.example.com/*'
+      end
+    end
+    should "match urls with matching wildcards" do
+      assert @mapping.matches_url?('http://test.example.com/path/to/doc.html')
+    end
+    should "not match urls with not matching wildcards" do
+      assert !@mapping.matches_url?('http://test.example2.com/path/to/doc.html')
+    end
+  end
+
   context "on pattern for page for encoding" do
     setup do
       @mapping = ContentMapping.new

@@ -57,7 +57,15 @@ class TestContentScrapper < Test::Unit::TestCase
           {:elements => ['p','br', 'b', 'em', 'i', 'strong', 'u', 'a', 'h1', 'h2', 'h3', 'li', 'ol', 'ul'], \
                        :attributes => { 'a' => ['href'] }}
         end
+
+        for_testing_report_to_stderr
       end
+    end
+
+    should "identify the correct content mapper" do
+      content_mapper = @scrapper.matching_content_mapper('http://www.pretty.url/fsdsd')
+      assert !content_mapper.nil?
+      assert_equal /^http:\/\/www\.pretty\.url/, content_mapper.url_pattern_regexp
     end
 
     context "for known sources with expected content scrapping" do
@@ -194,6 +202,22 @@ class TestContentScrapper < Test::Unit::TestCase
         assert_equal 'http://missing.url.matcher', @missing_url_matcher_flag
       end
     end
+
+    context "on matching content mapper finding empty content" do
+      setup do
+        twocontent = File.open("#{File.dirname(__FILE__)}/test_pages/pretty_missing_content.html").read
+        stringio = StringIO.new(twocontent)
+        Kernel.expects(:open).with('http://www.pretty.url').returns(stringio)
+        @missing_content_flag = 0
+        @scrapper.missing_content do |url|
+          @missing_content_flag += 1
+        end
+        @scrapper.scrap_content('http://www.pretty.url')
+      end
+      should "call the handler block only once" do
+        assert_equal 1, @missing_content_flag
+      end
+    end
   end
 
   context "on setting default content scrapper" do
@@ -217,6 +241,18 @@ class TestContentScrapper < Test::Unit::TestCase
       should("scrap content by the default scrapper") do
         assert_equal 'We should get this.', @feed_entry.scrap_content
       end
+    end
+  end
+
+  context "on giving standard package of settings" do
+    setup do
+      @scrapper = ContentScrapper.new
+      @scrapper.report_to_stderr
+    end
+    should "have the reporters set" do
+      assert !@scrapper.scrapping_exception_handler_block.nil?
+      assert !@scrapper.missing_url_matcher_handler_block.nil?
+      assert !@scrapper.missing_content_handler_block.nil?
     end
   end
 end
